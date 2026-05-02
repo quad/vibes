@@ -1,0 +1,19 @@
+{
+  "name": "vibes",
+  "owner": {
+    "name": "quad"
+  },
+  "description": "Mad skillz.",
+  "plugins": [
+    {
+      "name": "build-skill",
+      "source": "./build-skill",
+      "description": "Design a new SKILL.md — pick the structure that fits the job, encode only what the model would otherwise get wrong, and refine through real-use retrospectives."
+    },
+    {
+      "name": "fix-pr",
+      "source": "./fix-pr",
+      "description": "Address unresolved PR review comments — triage, fix valid ones with tests-first commits, then post replies on user confirmation."
+    }
+  ]
+}
