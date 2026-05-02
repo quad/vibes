@@ -1,5 +1,5 @@
 {
   "name": "fix-pr",
   "description": "Address unresolved PR review comments — triage, fix valid ones with tests-first commits, then post replies on user confirmation.",
-  "author": "quad"
+  "author": { "name": "quad" }
 }
