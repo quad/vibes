@@ -147,14 +147,19 @@ For `no-op` threads, batch a single confirmation: "Resolve these N threads with 
 ```bash
 # Reply. Use --field body=@- with a quoted heredoc — `gh api -f body='...'`
 # mangles backticks (see Gotchas).
+# --jq '.html_url' trims the response to just the confirmation URL.
 gh api -X POST \
   "/repos/$OWNER/$REPO/pulls/$NUMBER/comments/$REPLY_TO/replies" \
+  --jq '.html_url' \
   --field body=@- <<'BODY'
 Reply text here with `inline code` and whatever else.
 BODY
 
 # Resolve (GraphQL only; THREAD_ID, never a comment id).
-gh api graphql -f query='
+# --jq trims the response to just the boolean we need to confirm.
+gh api graphql \
+  --jq '.data.resolveReviewThread.thread.isResolved' \
+  -f query='
   mutation($threadId:ID!){
     resolveReviewThread(input:{threadId:$threadId}){thread{ id isResolved }}
   }
