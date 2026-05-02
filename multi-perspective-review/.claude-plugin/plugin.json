@@ -1,0 +1,5 @@
+{
+  "name": "multi-perspective-review",
+  "description": "Review a non-trivial artifact by spawning several subagents in parallel, each with a deliberately different lens, then synthesizing.",
+  "author": "quad"
+}

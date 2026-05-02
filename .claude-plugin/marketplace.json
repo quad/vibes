@@ -14,6 +14,11 @@
       "name": "fix-pr",
       "source": "./fix-pr",
       "description": "Address unresolved PR review comments — triage, fix valid ones with tests-first commits, then post replies on user confirmation."
+    },
+    {
+      "name": "multi-perspective-review",
+      "source": "./multi-perspective-review",
+      "description": "Review a non-trivial artifact by spawning several subagents in parallel, each with a deliberately different lens, then synthesizing."
     }
   ]
 }

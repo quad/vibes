@@ -27,3 +27,11 @@ Work through unresolved PR review comments: triage, fix with tests, reply on con
 ```
 /plugin install fix-pr@vibes
 ```
+
+### multi-perspective-review
+
+Review a non-trivial artifact by spawning several subagents in parallel, each with a deliberately different lens, then synthesizing. Takes a target — file path, section, or topic.
+
+```
+/plugin install multi-perspective-review@vibes
+```
