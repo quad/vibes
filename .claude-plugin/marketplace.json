@@ -19,6 +19,11 @@
       "name": "multi-perspective-review",
       "source": "./multi-perspective-review",
       "description": "Review a non-trivial artifact by spawning several subagents in parallel, each with a deliberately different lens, then synthesizing."
+    },
+    {
+      "name": "terseness-review",
+      "source": "./terseness-review",
+      "description": "Tighten the prose in your current VCS changes — comments, docstrings, commit messages, touched Markdown — against a terse, why-focused standard, then apply the trims directly."
     }
   ]
 }

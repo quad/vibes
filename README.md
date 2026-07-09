@@ -35,3 +35,11 @@ Review a non-trivial artifact by spawning several subagents in parallel, each wi
 ```
 /plugin install multi-perspective-review@vibes
 ```
+
+### terseness-review
+
+Tighten the prose in your current changes — comments, docstrings, commit messages, touched Markdown — against a terse, why-focused standard, then apply the trims to version control (jj `absorb`/`describe`, or git). Reviews only what you changed; no drive-by.
+
+```
+/plugin install terseness-review@vibes
+```

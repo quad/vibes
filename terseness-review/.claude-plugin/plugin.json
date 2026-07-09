@@ -1,0 +1,5 @@
+{
+  "name": "terseness-review",
+  "description": "Tighten the prose in your current VCS changes — comments, docstrings, commit messages, touched Markdown — against a terse, why-focused standard, then apply the trims directly.",
+  "author": { "name": "quad" }
+}
