@@ -104,10 +104,15 @@ Detect the VCS once. Prefer jj where present (`jj root` succeeds).
   line-number pairing misreads easily.
 - Messages: `jj log -r 'trunk()..@' --no-graph -T 'change_id.short() ++ "\n" ++ description ++ "\n---\n"'`
 
-**git** (fallback): `git diff origin/main...HEAD` + `git diff HEAD` for prose;
-`git log origin/main..HEAD --format='%H%n%B%n---'` for messages.
+**git** (fallback): first resolve the base branch — don't assume `main`. Take
+`git rev-parse --abbrev-ref origin/HEAD` (e.g. `origin/main`); if that's unset,
+use the first of `origin/main` / `origin/master` / `origin/develop` that
+`git rev-parse --verify` confirms exists. Then, with that as `<base>`:
+`git diff <base>...HEAD` + `git diff HEAD` for prose;
+`git log <base>..HEAD --format='%H%n%B%n---'` for messages.
 
-If `trunk()` / `origin/main` won't resolve, fall back to the working copy and say so.
+If no base resolves (detached, no remote, unborn branch), fall back to the
+working copy alone and say so.
 
 ## Applying
 
