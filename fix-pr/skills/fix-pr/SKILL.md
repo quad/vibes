@@ -46,10 +46,12 @@ OWNER_REPO=$(gh repo view --json nameWithOwner -q .nameWithOwner)
 OWNER="${OWNER_REPO%/*}"; REPO="${OWNER_REPO#*/}"
 
 gh pr view "$NUMBER" --repo "$OWNER/$REPO" \
-  --json title,headRefName,url,state,isDraft
+  --json title,headRefName,url,state,isDraft,statusCheckRollup
 ```
 
 If `state != OPEN` or `isDraft == true`, stop and ask. Then check the working tree (`git status --porcelain` or VCS equivalent) — if anything is uncommitted, stop and ask. Committing on top of unrelated WIP is the worst footgun here.
+
+`statusCheckRollup` (fetched in the same call above) surfaces failing CI — each node's `conclusion`/`state` gives the check result. A failing required check (build, typecheck, tests, migration-order) is usually more urgent than any review nit and **never shows up as a review thread** — triaging threads alone silently misses a red build. Report failing checks to the user at the §5 gate and treat a broken build as fix-first. A classic thread-invisible failure: on a long-lived / stacked branch, a migration back-dated by one merged to trunk after the branch was cut — re-timestamp it, don't debug the code.
 
 ### 2. Fetch unresolved review threads
 
@@ -71,6 +73,9 @@ gh api graphql -f query='
             }
           }
         }
+        comments(first:100){
+          nodes{ author{login} body }
+        }
       }
     }
   }
@@ -80,6 +85,8 @@ gh api graphql -f query='
 Capture the Vocabulary variables and the full `comments.nodes` list (not just the first comment) for each unresolved thread.
 
 If the **last** comment is from `viewer.login`, you've already replied and the reviewer hasn't responded — note and skip unless re-engagement is clearly warranted. (An ongoing back-and-forth where the reviewer replied last is normal; treat it normally.) If `pageInfo.hasNextPage` is true at either level, tell the user the PR is large and proceed with what you fetched.
+
+The `comments` connection (fetched in the same query above) is the PR-level **issue-comment timeline**, which `reviewThreads` excludes. Bots post status here that never appears as an inline thread — migration dry-run / build / coverage gates, CI-summary comments. Most just point at the inline threads (a "found N issues" summary → skip; those issues are already in the threads above), but a comment reporting a **failure or gate status** is fix-first signal, same as a red check in §1 — surface it at the §5 gate.
 
 ### 3. Orient
 
